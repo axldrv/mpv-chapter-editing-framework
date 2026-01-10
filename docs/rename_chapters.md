@@ -170,7 +170,7 @@ This script does **not** emit the toggle message itself.
 The auto-save toggle is **expected to be emitted by another script**.
 
 In the default framework setup:
-- **[create_chapter.lua.lua](docs/create_chapter.md)** defines the **Shift+X** keybinding
+- **[create_chapter.lua](/docs/create_chapter.md)** defines the **Shift+X** keybinding
 - Pressing **Shift+X** broadcasts `toggle_auto_save_mode`
 - `rename_chapters.lua` reacts to that broadcast
 
