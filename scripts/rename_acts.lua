@@ -188,7 +188,6 @@ end
 -- KEYBINDINGS
 -------------------------------------------------
 mp.add_key_binding("shift+ctrl+a", "rename_chapters_to_roman", rename_chapters_to_roman)
-mp.add_key_binding("ctrl+alt+a", "toggle_auto_rename", toggle_auto_rename)
 
 -- Shift+X → Toggle auto-save mode (keybinding handled by create_chapter.lua)
 mp.register_script_message("toggle_auto_save_mode", toggle_auto_save_mode)
