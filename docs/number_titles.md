@@ -1,6 +1,6 @@
 [← Back to README](/README.md)
 
-# [number_chapters.lua](/scripts/number_chapters.lua)
+# [number titles.lua](/scripts/number_titles.lua)
 
 Add or normalize numeric prefixes in chapter titles in mpv.
 
