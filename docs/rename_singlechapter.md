@@ -141,5 +141,5 @@ Formats:
 
 ## Dependencies
 
-- **[create_chapter.lua.lua](docs/create_chapter.md)** (for Shift+X auto-save toggle broadcast)
+- **[create_chapter.lua](/docs/create_chapter.md)** (for Shift+X auto-save toggle broadcast)
 - Windows PowerShell (optional, for rename dialog UI)
