@@ -82,7 +82,7 @@ Examples that will be ignored:
 >
 > All renamed chapters are output using **Roman numerals** (e.g. `Act I`, `Act II`, `Act III`).
 >
-> If you want chapters named using **Arabic numbers** (e.g. `Act 1`, `Act 2`),  use **[rename_chapters.lua](docs/rename_chapters.md)** instead and set `DEST_WORD` to `"Act"`.
+> If you want chapters named using **Arabic numbers** (e.g. `Act 1`, `Act 2`),  use **[rename_chapters.lua](/docs/rename_chapters.md)** instead and set `DEST_WORD` to `"Act"`.
 
 ---
 
@@ -204,4 +204,4 @@ Formats:
 
 ## Dependencies
 
-- **[create_chapter.lua](docs/create_chapter.md)** (for Shift+X auto-save toggle broadcast)
+- **[create_chapter.lua](/docs/create_chapter.md)** (for Shift+X auto-save toggle broadcast)
