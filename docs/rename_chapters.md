@@ -63,7 +63,7 @@ Only chapters that satisfy **both** conditions are renamed.
 >  
 > Roman numerals are only *recognized* for matching purposes (e.g. `Act IV`) and are converted into sequential numeric titles.
 >  
-> If you want chapters **named using Roman numerals** (e.g. `Chapter I`, `Chapter II`), use **[rename_acts.lua](docs/rename_acts.md)** instead and set `DEST_WORD` to `"Chapter"`.
+> If you want chapters **named using Roman numerals** (e.g. `Chapter I`, `Chapter II`), use **[rename_acts.lua](/docs/rename_acts.md)** instead and set `DEST_WORD` to `"Chapter"`.
 
 
 ### Examples that will be renamed (default configuration)
@@ -213,4 +213,4 @@ Formats:
 
 ## Dependencies
 
-- **[create_chapter.lua.lua](docs/create_chapter.md)** (for Shift+X auto-save toggle broadcast)
+- **[create_chapter.lua](/docs/create_chapter.md)** (for Shift+X auto-save toggle broadcast)
