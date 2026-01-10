@@ -8,7 +8,7 @@ This script removes **leading numbers and symbols** from existing chapter titles
 
 It is designed as a **post-processing cleanup tool** after importing, detecting, or batch-renaming chapters. Some commercial chapter sources include numeric prefixes in titles by default, which this script can remove for a cleaner presentation.
 
-> This script intentionally does the **opposite** of **[number_chapters.lua](/docs/number_chapters.md)**.  
+> This script intentionally does the **opposite** of **[number_titles.lua](/docs/number_titles.md)**.  
 > While some users prefer explicit numeric ordering, others find numeric prefixes visually noisy or redundant.  
 > This script exists to remove numbering and restore clean, semantic chapter titles.
 
