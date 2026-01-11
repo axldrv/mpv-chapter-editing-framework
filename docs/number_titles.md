@@ -22,6 +22,7 @@ It is designed for users who **prefer visible numbering** for readability, navig
 - Supports multiple numbering formats
 - Supports single-digit and two-digit numbering
 - Auto-saves chapter files after renaming
+- Integrates with the framework-wide auto-save toggle
 
 ---
 
