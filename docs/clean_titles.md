@@ -37,6 +37,7 @@ The behavior of this script is controlled by user-editable variables at the top 
 - Leaves non-matching titles untouched
 - Can be triggered manually or automatically
 - Auto-saves chapter files after cleanup
+- Integrates with the framework-wide auto-save toggle
 
 ---
 
