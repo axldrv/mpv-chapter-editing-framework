@@ -12,25 +12,24 @@ This project focuses on **chapter authoring and deployment**; it does not aim to
 
 ## Table of Contents
 
-- [Chapter Creation & Editing](#-chapter-creation--editing)
-- [Structured & Thematic Naming](#-structured--thematic-naming)
-- [Title Formatting Tools](#-title-formatting-tools)
-- [Timestamp Tools](#-timestamp-tools)
-- [Loading & Navigation](#-loading--navigation)
-- [Import/Export Tools](#-importexport-tools)
-- [Scene Detection](#-scene-detection)
-- [Automation](#-automation)
+- [Lua Scripts](#-lua-scripts)
+  - [Chapter Creation & Editing](#-chapter-creation--editing)
+  - [Structured & Thematic Naming](#-structured--thematic-naming)
+  - [Title Formatting Tools](#-title-formatting-tools)
+  - [Timestamp Tools](#-timestamp-tools)
+  - [Loading & Navigation](#-loading--navigation)
+  - [Import/Export Tools](#-importexport-tools)
+  - [Scene Detection](#-scene-detection)
+  - [Automation](#-automation)
+- [Workflow Scenarios](#-workflow-scenarios)
 - [Requirements](#requirements)
+- [Notes](#-notes)
 
 ---
 
 # 📦 Lua Scripts
 
 Below are **collapsible sections**, each containing detailed documentation.
-
-> **Note**  
-> **Auto-save mode** is enabled by default, so every chapter change is immediately exported and overwrites the corresponding file.  
-> Manual export is therefore **usually unnecessary** across all scripts that support auto-save.
 
 ---
 
@@ -338,7 +337,261 @@ Applies external chapter files back into video containers, per-file or in bulk.
 
 ---
 
-## Requirements
+# 🎬 Workflow Scenarios
+
+The following scenarios demonstrate common real-world workflows enabled by the framework, showing how individual scripts work together during playback and batch processing.
+
+---
+
+### Scenario 1: Create chapters live while watching
+<details>
+  
+**Situation:**  
+You're watching an episode or movie and want to create chapters as you watch.
+
+**Steps:**  
+**1.** Open the video in MPV  
+**2.** While watching, press **C** at each scene change (creates chapters in real time using `create_chapter.lua`)  
+**3.** If needed, fix a title:  
+- Navigate to the chapter (`jump_to_chapter.lua`)  
+- Press **A** to rename it (`rename_singlechapter.lua`)  
+
+**4.** Chapters are auto-saved to XML as you work  
+**5.** Press **Ctrl+Alt+M** to embed chapters and **Ctrl+Alt+D** to move chapter files to the recycle bin (`merge_chapters.lua`)  
+
+**Result:**  
+All videos receive clean, consistent chapters authored during playback.
+</details>
+
+---
+
+### Scenario 2: Remove numbering from existing chapters
+<details>
+  
+**Situation:**  
+You have a file with chapters like:
+  
+```
+01 - Intro
+02 - Opening Sequence
+03 - Scene 1
+...
+```
+You want to remove the numbering and re-embed clean chapter titles into the MKV.
+
+**Steps:**  
+**1.** Open the file in MPV  
+**2.** Press **Alt+C** (removes numeric prefixes using `clean_titles.lua`)  
+**3.** Chapters are auto-saved to XML immediately  
+**4.** Press **Ctrl+Alt+M** to embed chapters and **Ctrl+Alt+D** to move chapter files to the recycle bin (`merge_chapters.lua`)   
+
+**Result:**  
+The file now contains clean chapter titles, and no external chapter files remain.
+</details>
+
+---
+
+### Scenario 3: Convert messy auto-generated chapters into a clean structure
+<details>
+  
+**Situation:**  
+You extracted chapters with messy titles like:
+  
+```
+00:00:00.000
+00:03:13.026
+00:04:38.028
+...
+```
+
+**Steps:**  
+**1.** Open the file in MPV  
+**2.** Press **Shift+R** (discards all existing chapter titles and replaces them with a clean, sequential set using `create_chapter.lua`)  
+**3.** Chapters are auto-saved to XML immediately  
+**4.** Press **Ctrl+Alt+M** to embed chapters and **Ctrl+Alt+D** to move chapter files to the recycle bin (`merge_chapters.lua`)   
+
+**Result:**  
+A clean, professional chapter list replaces the messy originals.
+</details>
+
+---
+
+### Scenario 4: Apply a custom chapter naming preset
+<details>
+  
+**Situation:**  
+You want to apply a predefined chapter naming preset, such as broadcast-style,
+anime-style, or any custom structure you prefer.
+
+Example preset:
+
+```
+Cold Open  
+Act I  
+Act II  
+Act III  
+Credits  
+```
+
+**Steps:**  
+**1.** Open **[customized_named_chapters.lua](/scripts/customized_named_chapters.lua)** in a text editor  
+**2.** Add the desired chapter names (`names_5 = {"Cold Open", "Act I", "Act II", "Act III", "Credits"}`)  
+**3.** Save the lua script  
+**4.** Open the file in MPV  
+**5.** Press **Alt+R** (apply TV-style naming)  
+**6.** Chapters are auto-saved to XML immediately  
+**7.** Press **Ctrl+Alt+M** to embed chapters and **Ctrl+Alt+D** to move chapter files to the recycle bin (`merge_chapters.lua`)   
+
+**Result:**  
+The episode receives a consistent chapter naming structure based on the selected preset, with all chapters applied in a single operation.
+</details>
+
+---
+
+### Scenario 5: Fix chapters that are slightly out of sync
+<details>
+  
+**Situation:**  
+Chapters exist but start too early or late.
+
+**Steps:**  
+**1.** Open the file in MPV  
+**2.** Navigate to the chapter (`jump_to_chapter.lua`)  
+**3.** Seek the correct position  
+**4.** Press **Ctrl+Alt+Right/Left** (snap desired chapter to playback time using `offset_timestamps.lua`)  
+**5.** Repeat as needed  
+**6.** Chapters are auto-saved to XML as you work  
+**7.** Press **Ctrl+Alt+M** to embed chapters and **Ctrl+Alt+D** to move chapter files to the recycle bin (`merge_chapters.lua`)   
+
+**Result:**  
+Chapter boundaries are precisely aligned with scene transitions.
+</details>
+
+---
+
+### Scenario 6: Batch update chapters across an entire folder (MKV + MP4)
+<details>
+  
+**Situation:**  
+You want to apply chapters across a whole folder of videos.
+
+**Steps:**  
+**1.** Ensure chapter XML/TXT files exist for each video  
+**2.** Open any file in the folder  
+**3.** Press **Ctrl+Alt+T** (enable all-files mode for the folder)  
+**4.** Press **Ctrl+Alt+M** to embed chapters and **Ctrl+Alt+D** to move chapter files to the recycle bin (`merge_chapters.lua`)   
+
+**Result:**  
+Every episode is updated, and the folder is left clean.
+</details>
+
+---
+
+### Scenario 7: Use silence and fade detection to find act breaks
+<details>
+  
+**Situation:**  
+You want to place chapters at traditional broadcast-style act breaks, which are usually marked by a fade to black and a period of silence.
+
+**1.** Open the file in MPV  
+**2.** Use either detection method to locate a potential chapter boundary:
+   - Press **N** to seek silence (`skip_to_silence.lua`)
+   - Press **G** to seek a fade to black (`skip_to_fade.lua`)
+
+**3.** When MPV stops at a suitable point, press **C** to create a chapter (`create_chapter.lua`)  
+**4.** Alternate between **N** and **G** and repeat as needed  
+**5.** Press **Ctrl+Alt+M** to embed chapters and **Ctrl+Alt+D** to move chapter files to the recycle bin (`merge_chapters.lua`)  
+
+**Result:**  
+Chapters align naturally with scene transitions.
+</details>
+
+---
+
+### Scenario 8: Renumber chapters to reflect their actual position
+<details>
+
+**Situation:**  
+You have a chapter list such as:
+
+```
+Recap
+Chapter 1  
+Opening  
+Chapter 2  
+Chapter 3
+...
+```
+
+**Steps:**  
+**1.** Open the file in MPV  
+**2.** Press **Ctrl+Shift+Alt+C** (renames and renumbers all chapters so numbering reflects their true position using `rename_chapters.lua`)  
+**3.** Chapters are auto-saved to XML immediately  
+**4.** Press **Ctrl+Alt+M** to embed chapters and **Ctrl+Alt+D** to move chapter files to the recycle bin (`merge_chapters.lua`)
+
+**Result:**  
+
+```
+Recap
+Chapter 2  
+Opening  
+Chapter 4  
+Chapter 5
+...
+```
+
+**Result:**  
+Chapter numbering now correctly reflects their position in the chapter list, even when non-numbered entries (Recap, Opening, etc.) are present.
+</details>
+
+---
+### Scenario 9: Use Roman numerals for chapter numbering
+
+<details>
+
+**Situation:**  
+You want chapters labeled using Roman numerals instead of Arabic numbers (**`Chapter I`**, **`Chapter II`**, **`Chapter III`**, etc.).
+
+**Steps:**  
+**1.** Open **[rename_acts.lua](/scripts/rename_acts.lua)** in a text editor  
+**2.** Change the title prefix from `"Act"` to `"Chapter"`  
+**3.** Save the lua script  
+**4.** Open the video in MPV  
+**5.** Press **Ctrl+Shift+A** to rename all chapters using Roman numerals  
+**6.** Press **Ctrl+Alt+M** to embed chapters and **Ctrl+Alt+D** to move chapter files to the recycle bin (`merge_chapters.lua`)
+
+**Result:**  
+All chapters are renamed to `Chapter I`, `Chapter II`, `Chapter III`, etc., providing a clean, classical chapter numbering style.
+
+</details>
+
+---
+
+### Scenario 10: Batch find & replace chapter titles across an entire folder
+<details>
+
+**Situation:**  
+You have a set of video files where chapters contain the title **`End Credits`**.  
+You want to standardize this across all files by replacing it with **`Credits`**.  
+
+**Steps:**  
+**1.** Open **[find_&_replace.lua](/scripts/find_&_replace.lua)** in a text editor  
+**2.** Add or edit the local `WORD_MAP` to include: `End Credits → Credits`  
+**3.** Open any file in the target folder in MPV  
+**4.** Press **Ctrl+F** (enables auto-rename in `find_&_replace.lua`)  
+**5.** Press **Ctrl+Alt+P** (creates a playlist of all files in the folder using `auto_playlist.lua`)  
+**6.** Navigate through the playlist normally. As each file loads, auto-rename applies the replacement automatically.  
+**7.** Chapters are auto-saved to XML as you work  
+**8.** Press **Ctrl+Alt+T** (enable all-files mode for the folder)  
+**9.** Press **Ctrl+Alt+M** to embed chapters and **Ctrl+Alt+D** to move chapter files to the recycle bin (`merge_chapters.lua`)
+
+**Result:**  
+All files in the set now share consistent chapter naming, achieved with a single find-and-replace definition and automated playback traversal — no manual editing per file required.
+</details>
+
+---
+
+# Requirements
 
 Some scripts rely on external tools:
 
@@ -347,3 +600,19 @@ Some scripts rely on external tools:
 
 These tools are **only required for chapter deployment**.  
 All chapter authoring, editing, and formatting features work without them.
+
+---
+
+# 📝 Notes
+
+> **Auto-save mode:** is enabled by default, so every chapter change is immediately exported and overwrites the corresponding file.  
+> Manual export is therefore **usually unnecessary** across all scripts that support auto-save.
+
+> **MP4 workflow:**  
+> When working with MP4 files, you can press **Shift+X** to switch chapter auto-save to **TXT**.  
+> However, it's recommended to keep the default **XML auto-save** while authoring: it acts as an automatic backup if MPV crashes or is closed accidentally.  
+> You can instantly resume work by reloading the XML with `load_chapters.lua`, then export the final `CHAPTERxx.TXT` using **H** before merging.
+
+
+> **Batch merge:**  
+> When working with multiple files, press **Ctrl+Alt+T** to enable all-files mode before pressing **Ctrl+Alt+M** to embed chapters into the files. 
