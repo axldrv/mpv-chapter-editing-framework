@@ -67,7 +67,7 @@ A chapter is eligible for renaming if:
 - Case must match exactly
 - The entire title must match (no substrings)
 
-Examples (default configuration):
+Examples:
 
 | Original title | Result |
 |---------------|--------|
